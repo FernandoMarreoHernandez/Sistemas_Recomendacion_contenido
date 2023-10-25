@@ -1,0 +1,266 @@
+aromas	2	0	0	1	0	1	1	0	0	0	
+
+include	1	0	0	0	0	0	0	0	0	0	
+
+tropical	1	0	0	0	0	0	0	0	0	0	
+
+fruit	1	0	0	0	0	1	0	0	0	0	
+
+broom	1	0	0	0	0	0	0	0	0	0	
+
+brimstone	1	0	0	0	0	0	0	0	0	0	
+
+dried	2	0	0	0	0	0	0	0	1	0	
+
+herb	1	0	0	0	0	0	1	0	0	0	
+
+palate	1	0	0	1	0	0	1	0	0	0	
+
+isnt	1	0	0	0	0	0	0	0	0	0	
+
+overly	1	0	0	0	0	0	0	0	0	0	
+
+expressive	1	0	0	0	0	0	0	0	0	0	
+
+offer	1	0	0	0	0	0	0	1	0	0	
+
+unripened	1	0	0	0	0	0	0	0	0	0	
+
+apple	1	0	0	0	0	0	0	0	0	1	
+
+citrus	1	0	0	0	0	0	0	0	0	0	
+
+sage	1	0	0	0	0	0	0	0	0	0	
+
+brisk	1	0	0	0	0	0	0	0	1	0	
+
+acidity	1	1	1	0	0	1	1	1	0	1	
+
+ripe	0	1	0	0	0	0	0	0	0	0	
+
+fruity	0	1	0	0	0	0	0	0	1	0	
+
+a	0	1	0	2	3	1	1	1	0	1	
+
+wine	0	1	1	0	1	0	0	1	1	0	
+
+smooth	0	1	0	0	0	0	0	0	0	0	
+
+structured	0	1	0	0	0	0	0	0	0	0	
+
+firm	0	1	0	0	0	0	0	1	0	0	
+
+tannins	0	1	0	0	0	0	1	0	0	0	
+
+fill	0	1	0	0	0	0	0	0	0	0	
+
+juicy	0	1	0	0	0	0	0	0	0	0	
+
+red	0	1	0	0	0	0	1	0	0	0	
+
+berry	0	1	0	0	0	0	1	0	0	0	
+
+fruits	0	1	0	0	0	0	0	0	0	1	
+
+freshened	0	1	0	0	0	0	0	0	0	0	
+
+drinkable	0	1	0	0	0	0	0	0	0	0	
+
+2016	0	1	0	0	0	0	0	0	0	0	
+
+tart	0	0	1	0	0	0	0	0	0	0	
+
+snappy	0	0	1	0	0	0	0	0	0	0	
+
+flavors	0	0	2	0	0	1	0	0	1	0	
+
+lime	0	0	1	0	0	0	0	0	0	0	
+
+flesh	0	0	1	0	0	0	0	0	0	0	
+
+rind	0	0	1	1	0	0	0	0	0	0	
+
+dominate	0	0	1	0	0	0	0	0	0	0	
+
+green	0	0	1	0	0	1	0	0	0	0	
+
+pineapple	0	0	1	1	0	0	0	0	0	0	
+
+pokes	0	0	1	0	0	0	0	0	0	0	
+
+crisp	0	0	1	0	0	0	0	0	0	1	
+
+underscoring	0	0	1	0	0	0	0	0	0	0	
+
+stainless-steel	0	0	1	0	0	0	0	0	0	0	
+
+fermented	0	0	1	0	0	0	0	0	0	0	
+
+lemon	0	0	0	1	0	0	0	0	0	0	
+
+pith	0	0	0	1	0	0	0	0	0	0	
+
+orange	0	0	0	1	0	0	0	0	0	0	
+
+blossom	0	0	0	1	0	0	0	0	0	0	
+
+start	0	0	0	1	0	0	0	0	0	0	
+
+bite	0	0	0	1	0	0	0	0	0	0	
+
+opulent	0	0	0	1	0	0	0	0	0	0	
+
+note	0	0	0	1	0	0	0	0	1	0	
+
+honey-drizzled	0	0	0	1	0	0	0	0	0	0	
+
+guava	0	0	0	1	0	0	0	0	0	0	
+
+mango	0	0	0	1	0	0	0	0	0	0	
+
+give	0	0	0	1	0	0	0	0	0	0	
+
+slightly	0	0	0	1	0	0	0	0	0	0	
+
+astringent	0	0	0	1	0	0	0	0	0	0	
+
+semidry	0	0	0	1	0	0	0	0	0	0	
+
+finish	0	0	0	1	0	1	0	0	0	0	
+
+regular	0	0	0	0	1	0	0	0	0	0	
+
+bottling	0	0	0	0	1	0	0	0	0	0	
+
+2012	0	0	0	0	1	0	0	0	0	0	
+
+rough	0	0	0	0	1	0	0	0	0	0	
+
+tannic	0	0	0	0	1	0	0	0	0	0	
+
+rustic	0	0	0	0	1	0	0	0	0	0	
+
+earthy	0	0	0	0	1	0	0	0	0	0	
+
+herbal	0	0	0	0	1	1	0	0	0	0	
+
+characteristics	0	0	0	0	1	0	0	0	0	0	
+
+pleasantly	0	0	0	0	1	0	0	0	0	0	
+
+unfussy	0	0	0	0	1	0	0	0	0	0	
+
+country	0	0	0	0	1	0	0	0	0	0	
+
+good	0	0	0	0	1	0	0	0	0	0	
+
+companion	0	0	0	0	1	0	0	0	0	0	
+
+hearty	0	0	0	0	1	0	0	0	0	0	
+
+winter	0	0	0	0	1	0	0	0	0	0	
+
+stew	0	0	0	0	1	0	0	0	0	0	
+
+blackberry	0	0	0	0	0	1	0	0	0	0	
+
+raspberry	0	0	0	0	0	1	0	0	0	0	
+
+show	0	0	0	0	0	1	0	0	0	0	
+
+typical	0	0	0	0	0	1	0	0	0	0	
+
+navarran	0	0	0	0	0	1	0	0	0	0	
+
+whiff	0	0	0	0	0	1	0	0	0	0	
+
+herbs	0	0	0	0	0	1	0	0	0	0	
+
+case	0	0	0	0	0	1	0	0	0	0	
+
+horseradish	0	0	0	0	0	1	0	0	0	0	
+
+mouth	0	0	0	0	0	1	0	0	0	0	
+
+full	0	0	0	0	0	1	0	0	0	0	
+
+bodied	0	0	0	0	0	1	0	0	0	0	
+
+tomatoey	0	0	0	0	0	1	0	0	0	0	
+
+spicy	0	0	0	0	0	1	0	0	0	0	
+
+complement	0	0	0	0	0	1	0	0	0	0	
+
+dark	0	0	0	0	0	1	0	0	0	0	
+
+plum	0	0	0	0	0	1	0	0	0	0	
+
+fresh	0	0	0	0	0	1	1	0	1	1	
+
+grabby	0	0	0	0	0	1	0	0	0	0	
+
+heres	0	0	0	0	0	0	1	0	0	0	
+
+bright	0	0	0	0	0	0	1	0	0	0	
+
+informal	0	0	0	0	0	0	1	0	0	0	
+
+open	0	0	0	0	0	0	1	0	0	0	
+
+candied	0	0	0	0	0	0	1	0	0	0	
+
+white	0	0	0	0	0	0	1	0	0	0	
+
+pepper	0	0	0	0	0	0	1	0	0	0	
+
+savory	0	0	0	0	0	0	1	0	1	0	
+
+carry	0	0	0	0	0	0	1	0	0	0	
+
+balance	0	0	0	0	0	0	1	1	0	1	
+
+soft	0	0	0	0	0	0	1	0	0	0	
+
+dry	0	0	0	0	0	0	0	1	0	1	
+
+restrain	0	0	0	0	0	0	0	1	0	0	
+
+spice	0	0	0	0	0	0	0	1	0	1	
+
+profusion	0	0	0	0	0	0	0	1	0	0	
+
+texture	0	0	0	0	0	0	0	1	0	1	
+
+food	0	0	0	0	0	0	0	1	0	0	
+
+thyme	0	0	0	0	0	0	0	0	1	0	
+
+accent	0	0	0	0	0	0	0	0	1	0	
+
+sunnier	0	0	0	0	0	0	0	0	1	0	
+
+preserve	0	0	0	0	0	0	0	0	1	0	
+
+peach	0	0	0	0	0	0	0	0	1	0	
+
+off-dry	0	0	0	0	0	0	0	0	1	0	
+
+elegant	0	0	0	0	0	0	0	0	1	0	
+
+sprightly	0	0	0	0	0	0	0	0	1	0	
+
+footprint	0	0	0	0	0	0	0	0	1	0	
+
+great	0	0	0	0	0	0	0	0	0	1	
+
+depth	0	0	0	0	0	0	0	0	0	1	
+
+flavor	0	0	0	0	0	0	0	0	0	1	
+
+pear	0	0	0	0	0	0	0	0	0	1	
+
+touch	0	0	0	0	0	0	0	0	0	1	
+
+drink	0	0	0	0	0	0	0	0	0	1	
+
