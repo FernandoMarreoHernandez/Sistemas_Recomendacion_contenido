@@ -16,16 +16,25 @@ import copy
 import argparse
 import json
 
-def count_words(documents):
-    words = {}
-    for i, row in enumerate(documents):
-        for word in row.split(" "):
-            if word == "":
-                continue
-            if word not in words:
-                words[word] = [0] * len(documents)
-            words[word][i] += 1
-    return words
+def indices_count(palabra, documents):
+    indices = []
+    for i in range(len(documents)):
+        if documents[i] == palabra:
+            indices.append(i)
+    print (indices)
+    return indices
+
+#funcion que me dice en que posicion de la linea esta la palabra y si esta en varias lineas me dice todas
+def pos_words(words_doc):
+    matrix = {}
+    for i, words in enumerate(words_doc):
+        helpval = 0
+        for word in words:
+            if word not in matrix:
+                matrix[word] = [word]
+            matrix[word][helpval] = indices_count(word, words_doc[i])
+            helpval += 1            
+    return matrix
 
 parser = argparse.ArgumentParser(description='Process filename.')
 parser.add_argument('-f','--filename', type=str, help='filename', required=True)
@@ -53,13 +62,18 @@ for i, row in enumerate(documents):
             words[j] = corpus[word]
         if word in stopwords:
             words[j] = ""
-    documents[i] = " ".join(words)
+    words = [x for x in words if x != ""]
+    documents[i] = words
+    
 
 
-matrix = count_words(documents)
+matrix = pos_words(documents)
 sys.stdout = open("results/" + args.filename + "-result.txt", "w")
+docindex = 0
 for word in matrix:
+    print("Documento ", docindex, end="\t")
     print(word, end="\t")
     for count in matrix[word]:
         print(count, end="\t")
     print("\n")
+
