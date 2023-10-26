@@ -21,19 +21,24 @@ def indices_count(palabra, documents):
     for i in range(len(documents)):
         if documents[i] == palabra:
             indices.append(i)
-    print (indices)
     return indices
 
 #funcion que me dice en que posicion de la linea esta la palabra y si esta en varias lineas me dice todas
 def pos_words(words_doc):
+    #recorremos words_doc
     matrix = {}
-    for i, words in enumerate(words_doc):
-        helpval = 0
-        for word in words:
-            if word not in matrix:
-                matrix[word] = [word]
-            matrix[word][helpval] = indices_count(word, words_doc[i])
-            helpval += 1            
+    docinfo = {}
+    helpval = 0
+    for doc in words_doc:
+        for word in doc:
+            #si la palabra no esta en el diccionario la añadimos
+            if word not in docinfo:
+                #metemos la palabra en el diccionario
+                docinfo[word] = [0]
+                docinfo[word][0] = indices_count(word, words_doc[helpval])
+        matrix[helpval] = copy.deepcopy(docinfo)
+        helpval += 1
+        docinfo = {}
     return matrix
 
 parser = argparse.ArgumentParser(description='Process filename.')
@@ -65,15 +70,50 @@ for i, row in enumerate(documents):
     words = [x for x in words if x != ""]
     documents[i] = words
     
-
-
 matrix = pos_words(documents)
+#calculamos el tf
+for doc in matrix:
+    for word in matrix[doc]:
+        matrix[doc][word].append(len(matrix[doc][word][0])/len(documents[doc]))
+
+#calculamos el idf
+for doc in matrix:
+    for word in matrix[doc]:
+        matrix[doc][word].append(np.log10(len(documents)/len(matrix[doc][word][0])))
+    
+#calculamos el tf-idf
+for doc in matrix:
+    for word in matrix[doc]:
+        matrix[doc][word].append(matrix[doc][word][1]*matrix[doc][word][2])
+
+#calculamos la similaridad coseno entre las filas
+similarity = []
+for i in range(len(documents)):
+    for j in range(i+1, len(documents)):
+        similarity.append([i,j,0])
+        for word in matrix[i]:
+            if word in matrix[j]:
+                similarity[-1][2] += matrix[i][word][3]*matrix[j][word][3]
+        similarity[-1][2] = similarity[-1][2]/(np.sqrt(sum([matrix[i][word][3]**2 for word in matrix[i]]))*np.sqrt(sum([matrix[j][word][3]**2 for word in matrix[j]])))
+
+
+
+
 sys.stdout = open("results/" + args.filename + "-result.txt", "w")
-docindex = 0
-for word in matrix:
-    print("Documento ", docindex, end="\t")
-    print(word, end="\t")
-    for count in matrix[word]:
-        print(count, end="\t")
-    print("\n")
+helpval = 0
+#recorremos la matriz
+for doc in matrix:
+    print ("Documento " + str(helpval))
+    print ("\t Palabra \t Indice \t TF \t IDF \t TF-IDF")
+    #recorremos las palabras de cada documento
+    for word in matrix[doc]:
+        #recorremos los indices de cada palabra y los mostramos sin duplicados
+        print ("\t",word,"\t", str(list(set(matrix[doc][word][0]))), "\t", matrix[doc][word][1], "\t", matrix[doc][word][2], "\t", matrix[doc][word][3])
+    helpval += 1
+    print ("\n")
+#mostramos la similaridad porfilas
+print ("Similaridad entre filas")
+print ("Documento \t Documento \t Similaridad")
+for i in range(len(similarity)):
+    print (str(similarity[i][0]) + "\t\t" + str(similarity[i][1]) + "\t\t" + str(similarity[i][2]))
 
