@@ -76,25 +76,42 @@ for doc in matrix:
     for word in matrix[doc]:
         matrix[doc][word].append(len(matrix[doc][word][0])/len(documents[doc]))
 
-#calculamos el idf
-for doc in matrix:
-    for word in matrix[doc]:
-        matrix[doc][word].append(np.log10(len(documents)/len(matrix[doc][word][0])))
+#calculamos el idf comparando entre todos los documentos
+for lines_num in matrix:
+    #buscamos cuantas veces aparece la palabra en todos los documentos
+    for word in matrix[lines_num]:
+        print (word)
+        #buscamos cuantas veces aparece la palabra en todos los documentos
+        count = 0
+        for lines_num2 in matrix:
+            if word in matrix[lines_num2]:
+                count += 1
+        #calculamos el idf
+        matrix[lines_num][word].append(np.log10(len(matrix)/count))
+
     
 #calculamos el tf-idf
 for doc in matrix:
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][1]*matrix[doc][word][2])
 
-#calculamos la similaridad coseno entre las filas
+#calculamos la similaridad coseno entre las filas usando tf-idf
 similarity = []
-for i in range(len(documents)):
-    for j in range(i+1, len(documents)):
-        similarity.append([i,j,0])
+for i in range(len(matrix)):
+    for j in range(i+1,len(matrix)):
+        #calculamos el numerador
+        numerator = 0
         for word in matrix[i]:
             if word in matrix[j]:
-                similarity[-1][2] += matrix[i][word][3]*matrix[j][word][3]
-        similarity[-1][2] = similarity[-1][2]/(np.sqrt(sum([matrix[i][word][3]**2 for word in matrix[i]]))*np.sqrt(sum([matrix[j][word][3]**2 for word in matrix[j]])))
+                numerator += matrix[i][word][3]*matrix[j][word][3]
+        #calculamos el denominador
+        denominator = 0
+        for word in matrix[i]:
+            denominator += matrix[i][word][3]**2
+        for word in matrix[j]:
+            denominator += matrix[j][word][3]**2
+        #calculamos la similaridad
+        similarity.append([i,j,numerator/np.sqrt(denominator)])
 
 
 
@@ -107,8 +124,8 @@ for doc in matrix:
     print ("\t Palabra \t Indice \t TF \t IDF \t TF-IDF")
     #recorremos las palabras de cada documento
     for word in matrix[doc]:
-        #recorremos los indices de cada palabra y los mostramos sin duplicados
-        print ("\t",word,"\t", str(list(set(matrix[doc][word][0]))), "\t", matrix[doc][word][1], "\t", matrix[doc][word][2], "\t", matrix[doc][word][3])
+        #recorremos los indices de cada palabra y los mostramos sin duplicados redondeando los valores a 3 decimales
+        print ("\t " + str(word) + "\t\t" + str(matrix[doc][word][0]) + "\t\t" + str(round(matrix[doc][word][1],3)) + "\t" + str(round(matrix[doc][word][2],3)) + "\t" + str(round(matrix[doc][word][3],3)))
     helpval += 1
     print ("\n")
 #mostramos la similaridad porfilas
@@ -116,4 +133,3 @@ print ("Similaridad entre filas")
 print ("Documento \t Documento \t Similaridad")
 for i in range(len(similarity)):
     print (str(similarity[i][0]) + "\t\t" + str(similarity[i][1]) + "\t\t" + str(similarity[i][2]))
-
