@@ -95,23 +95,16 @@ for doc in matrix:
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][1]*matrix[doc][word][2])
 
-#calculamos la similaridad coseno entre las filas usando tf-idf
-similarity = []
-for i in range(len(matrix)):
-    for j in range(i+1,len(matrix)):
-        #calculamos el numerador
-        numerator = 0
-        for word in matrix[i]:
-            if word in matrix[j]:
-                numerator += matrix[i][word][3]*matrix[j][word][3]
-        #calculamos el denominador
-        denominator = 0
-        for word in matrix[i]:
-            denominator += matrix[i][word][3]**2
-        for word in matrix[j]:
-            denominator += matrix[j][word][3]**2
-        #calculamos la similaridad
-        similarity.append([i,j,numerator/np.sqrt(denominator)])
+#sacamos los 5 mayores idfs
+max_idf = []
+for doc in matrix:
+    for word in matrix[doc]:
+        max_idf.append(matrix[doc][word][2])
+max_idf = heapq.nlargest(5, max_idf)
+
+
+
+
 
 
 
