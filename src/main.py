@@ -38,13 +38,8 @@ parser = argparse.ArgumentParser(description='Process filename.')
 parser.add_argument('-f','--filename', type=str, help='filename', required=True)
 parser.add_argument('-s','--stopwords', type=str, help='stopword', required=True)
 parser.add_argument('-c','--corpus', type=str, help='corpus', required=True)
-parser.add_argument('-n','--neighbours', type=int, help='neighbour', required=False, default=0)
-
 
 args = parser.parse_args()
-if args.neighbours < 0:
-    print("El numero de vecinos no puede ser negativo")
-    sys.exit()
 
 with open("data/documents/" + args.filename + ".txt", "r") as f:
     documents = f.readlines()
@@ -108,10 +103,6 @@ for doc in matrix:
 for i, doc in enumerate(matrix):
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
-
-# ordenamos los n mayores tf-idf, siendo n el numero de vecinos
-#if args.neighbours == 0:
-#    args.neighbours = len(matrix)
 
 similarity = []
 for i in range(len(matrix)):
