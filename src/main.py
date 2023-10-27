@@ -25,28 +25,26 @@ def indices_count(palabra, documents):
 
 #funcion que me dice en que posicion de la linea esta la palabra y si esta en varias lineas me dice todas
 def pos_words(words_doc):
-    #recorremos words_doc
     matrix = {}
-    docinfo = {}
-    helpval = 0
-    for doc in words_doc:
-        for word in doc:
-            #si la palabra no esta en el diccionario la añadimos
-            if word not in docinfo:
-                #metemos la palabra en el diccionario
-                docinfo[word] = [0]
-                docinfo[word][0] = indices_count(word, words_doc[helpval])
-        matrix[helpval] = copy.deepcopy(docinfo)
-        helpval += 1
+    for i, doc in enumerate(words_doc):
         docinfo = {}
+        for word in doc:
+            docinfo[word] = [indices_count(word, doc)]
+        matrix[i] = docinfo
     return matrix
+
 
 parser = argparse.ArgumentParser(description='Process filename.')
 parser.add_argument('-f','--filename', type=str, help='filename', required=True)
 parser.add_argument('-s','--stopwords', type=str, help='stopword', required=True)
 parser.add_argument('-c','--corpus', type=str, help='corpus', required=True)
+parser.add_argument('-n','--neighbours', type=int, help='neighbour', required=False, default=0)
+
 
 args = parser.parse_args()
+if args.neighbours < 0:
+    print("El numero de vecinos no puede ser negativo")
+    sys.exit()
 
 with open("data/documents/" + args.filename + ".txt", "r") as f:
     documents = f.readlines()
@@ -74,13 +72,13 @@ matrix = pos_words(documents)
 #calculamos el tf
 for doc in matrix:
     for word in matrix[doc]:
-        matrix[doc][word].append(len(matrix[doc][word][0])/len(documents[doc]))
+        tf = 1 + np.log10(len(matrix[doc][word][0]))
+        matrix[doc][word].append(tf)
 
 #calculamos el idf comparando entre todos los documentos
 for lines_num in matrix:
     #buscamos cuantas veces aparece la palabra en todos los documentos
     for word in matrix[lines_num]:
-        print (word)
         #buscamos cuantas veces aparece la palabra en todos los documentos
         count = 0
         for lines_num2 in matrix:
@@ -95,19 +93,35 @@ for doc in matrix:
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][1]*matrix[doc][word][2])
 
+'''
 #sacamos los 5 mayores idfs
-max_idf = []
+'''
+
+vector_length = []
 for doc in matrix:
+    sum = 0
     for word in matrix[doc]:
-        max_idf.append(matrix[doc][word][2])
-max_idf = heapq.nlargest(5, max_idf)
+        sum += matrix[doc][word][3]**2
+    vector_length.append(np.sqrt(sum))
 
+# normalizamos los tf
+for i, doc in enumerate(matrix):
+    for word in matrix[doc]:
+        matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
 
+# ordenamos los n mayores tf-idf, siendo n el numero de vecinos
+#if args.neighbours == 0:
+#    args.neighbours = len(matrix)
 
-
-
-
-
+similarity = []
+for i in range(len(matrix)):
+    for j in range(i+1, len(matrix)):
+        sum = 0
+        for word in matrix[i]:
+            if word in matrix[j]:
+                sum += matrix[i][word][4]*matrix[j][word][4]
+        similarity.append([i, j, sum])
+    
 
 sys.stdout = open("results/" + args.filename + "-result.txt", "w")
 helpval = 0
@@ -125,4 +139,4 @@ for doc in matrix:
 print ("Similaridad entre filas")
 print ("Documento \t Documento \t Similaridad")
 for i in range(len(similarity)):
-    print (str(similarity[i][0]) + "\t\t" + str(similarity[i][1]) + "\t\t" + str(similarity[i][2]))
+   print ("[" + str(similarity[i][0]) + "]\t\t[" + str(similarity[i][1]) + "]\t\t" + str(similarity[i][2]))
