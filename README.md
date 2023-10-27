@@ -2,6 +2,18 @@
 
 ## Índice
 
+- [Instrucciones de instalación](#instrucciones-de-instalación)
+- [Descripción del código](#descripción-del-código)
+  - [Limpieza del documento](#limpieza-del-documento)
+  - [Conteo de palabras por fila](#conteo-de-palabras-por-fila)
+  - [Cálculo del TF](#cálculo-del-tf)
+  - [Cálculo del IDF](#cálculo-del-idf)
+  - [Cálculo del TF-IDF](#cálculo-del-tf-idf)
+  - [Cálculo de similitudes](#cálculo-de-similitudes)
+  - [Imprimir los resultados](#imprimir-los-resultados)
+- [Ejecución del programa](#ejecución-del-programa)
+- [Ejemplo de ejecución](#ejemplo-de-ejecución)
+
 En esta práctica vamos a implementar un sistema de recomendación siguiendo el modelo basado en el contenido.
 
 ## Instrucciones de instalación
@@ -78,7 +90,7 @@ De esta forma, hemos conseguido almacenar las veces que aparece los términos en
 
 Para calcular el TF de cada termino en cada fila, tendremos que hacer uso de la siguiente fórmula:
 
-$$ TF_{ij} = 1 + log10(x_{ij})$$
+$$ TF*{ij} = 1 + log10(x*{ij})$$
 
 Siendo $x_{ij}$ el número de veces que aparece el término $i$ en el documento $j$.
 
@@ -89,7 +101,7 @@ for doc in matrix:
         matrix[doc][word].append(tf)
 ```
 
-Siguiendo la fórmula descrita anteriormente, almacenamos cada valor obtenido en la matriz de resultados junto al término y fila al que corresponde. 
+Siguiendo la fórmula descrita anteriormente, almacenamos cada valor obtenido en la matriz de resultados junto al término y fila al que corresponde.
 
 ### Cálculo del IDF
 
@@ -97,7 +109,7 @@ Para calcular el IDF, tendremos que seguir la siguiente fórmula para cada térm
 
 $$IDF_i = log10(N/df_i)$$
 
-Siendo $N$ el número total de documentos  y $df_i$ el número de documentos en los que aparece el término $i$.
+Siendo $N$ el número total de documentos y $df_i$ el número de documentos en los que aparece el término $i$.
 
 ```python
 for lines_num in matrix:
@@ -140,6 +152,7 @@ for doc in matrix:
         sum += matrix[doc][word][3]**2
     vector_length.append(np.sqrt(sum))
 ```
+
 Para cada documento, tendremos que calcular la raíz de la suma de los cuadrados de cada uno de los TF en una misma fila. Esto nos resulta en una lista con cada longitud de documento. Con estos valores, podremos normalizar la matriz de TF.
 
 ```python
@@ -172,3 +185,45 @@ Por último, vamos a almacenar los resultados en un fichero txt con:
 - IDF de cada término
 - TF-IDF de cada término
 - Similiradidad coseno de cada fila
+
+````python
+sys.stdout = open("results/" + args.filename + "-result.txt", "w")
+helpval = 0
+for doc in matrix:
+    print ("Documento " + str(helpval))
+    print ("\t Palabra \t Indice \t TF \t IDF \t TF-IDF")
+    for word in matrix[doc]:
+        print ("\t " + str(word) + "\t\t" + str(matrix[doc][word][0]) + "\t\t" + str(round(matrix[doc][word][1],5)) + "\t" + str(round(matrix[doc][word][2],5)) + "\t" + str(round(matrix[doc][word][3],5)))
+    helpval += 1
+    print ("\n")
+print ("Similaridad entre filas")
+print ("Documento \t Documento \t Similaridad")
+for i in range(len(similarity)):
+   print ("[" + str(similarity[i][0]) + "]\t\t[" + str(similarity[i][1]) + "]\t\t" + str(similarity[i][2]))```
+````
+
+De esta forma imprimimos los resultados en un fichero dentro de la carpeta results.
+
+## Ejecución del programa
+
+Para ejecutar el programa, se debe ejecutar el siguiente comando:
+
+```
+python main.py -f <filename> -s <stopwords> -c <corpus>
+```
+
+Donde:
+
+- filename: Nombre del fichero a procesar
+- stopwords: Nombre del fichero de palabras de parada
+- corpus: Nombre del fichero de corpus
+
+## Ejemplo de ejecución
+
+Si ejecutamos el programa con los siguientes parámetros:
+
+```
+python main.py -f documents01 -s stop-words-en -c corpus-en
+```
+
+Se almacenarán los resultados en el fichero `documents01-result.txt` dentro de la carpeta results. En el fichero se puede observar la matriz de resultados y la matriz de similitudes.
