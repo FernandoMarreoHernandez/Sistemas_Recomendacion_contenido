@@ -1,21 +1,9 @@
-'''
-El software debe proporcionar como salida lo siguiente:
-Para cada documento, tabla con las siguientes columnas:
-Índice del término.
-Término.
-TF.
-IDF.
-TF-IDF.
-Similaridad coseno entre cada par de documentos.
-'''
-
 import numpy as np
-import heapq
 import sys
-import copy
 import argparse
 import json
 
+#funcion que cuenta cuantas veces aparece una palabra en un documento
 def indices_count(palabra, documents):
     indices = []
     for i in range(len(documents)):
@@ -33,7 +21,7 @@ def pos_words(words_doc):
         matrix[i] = docinfo
     return matrix
 
-
+#argumentos que introducimos por linea de comando
 parser = argparse.ArgumentParser(description='Process filename.')
 parser.add_argument('-f','--filename', type=str, help='filename', required=True)
 parser.add_argument('-s','--stopwords', type=str, help='stopword', required=True)
@@ -52,7 +40,9 @@ with open("data/corpus/" + args.corpus + ".txt", "r") as f:
 
 stopwords = [x.strip() for x in stopwords]
 
-documents = [x.strip().replace(",","").replace(".","").replace(";","").replace("?","").replace("!","").replace("¡","").replace("¿","").replace("\"","").replace("\'","").lower() for x in documents]
+#limpiamos los documentos quitando todos los caracteres que no sean letras y pasandolo a minusculas
+documents = [x.strip().replace(",","").replace(".","").replace(";","").replace("?","").replace("!","").replace("¡","").replace("¿","").replace("\"","").replace("\'","").replace(":","").lower() for x in documents]
+#eliminamos las stopwords y reemplazamos las palabras por su indice en el corpus
 for i, row in enumerate(documents):
     words = row.split(" ")
     for j, word in enumerate(words):
@@ -62,8 +52,10 @@ for i, row in enumerate(documents):
             words[j] = ""
     words = [x for x in words if x != ""]
     documents[i] = words
-    
+
+#invocamos a la funcion para sacar cuantas veces aparece cada palabra en los documentos    
 matrix = pos_words(documents)
+
 #calculamos el tf
 for doc in matrix:
     for word in matrix[doc]:
@@ -72,7 +64,6 @@ for doc in matrix:
 
 #calculamos el idf comparando entre todos los documentos
 for lines_num in matrix:
-    #buscamos cuantas veces aparece la palabra en todos los documentos
     for word in matrix[lines_num]:
         #buscamos cuantas veces aparece la palabra en todos los documentos
         count = 0
@@ -88,10 +79,8 @@ for doc in matrix:
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][1]*matrix[doc][word][2])
 
-'''
-#sacamos los 5 mayores idfs
-'''
 
+#calculamos la longitud de cada documento
 vector_length = []
 for doc in matrix:
     sum = 0
@@ -104,6 +93,7 @@ for i, doc in enumerate(matrix):
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
 
+#calculamos la similaridad entre filas
 similarity = []
 for i in range(len(matrix)):
     for j in range(i+1, len(matrix)):
@@ -114,6 +104,7 @@ for i in range(len(matrix)):
         similarity.append([i, j, sum])
     
 
+#creamos el documento resultado y guardamos los resultados
 sys.stdout = open("results/" + args.filename + "-result.txt", "w")
 helpval = 0
 #recorremos la matriz
@@ -122,8 +113,8 @@ for doc in matrix:
     print ("\t Palabra \t Indice \t TF \t IDF \t TF-IDF")
     #recorremos las palabras de cada documento
     for word in matrix[doc]:
-        #recorremos los indices de cada palabra y los mostramos sin duplicados redondeando los valores a 3 decimales
-        print ("\t " + str(word) + "\t\t" + str(matrix[doc][word][0]) + "\t\t" + str(round(matrix[doc][word][1],3)) + "\t" + str(round(matrix[doc][word][2],3)) + "\t" + str(round(matrix[doc][word][3],3)))
+        #recorremos los indices de cada palabra y los mostramos redondeando los valores a 5 decimales
+        print ("\t " + str(word) + "\t\t" + str(matrix[doc][word][0]) + "\t\t" + str(round(matrix[doc][word][1],5)) + "\t" + str(round(matrix[doc][word][2],5)) + "\t" + str(round(matrix[doc][word][3],5)))
     helpval += 1
     print ("\n")
 #mostramos la similaridad porfilas
