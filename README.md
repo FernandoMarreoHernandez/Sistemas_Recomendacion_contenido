@@ -153,24 +153,26 @@ for doc in matrix:
     vector_length.append(np.sqrt(sum))
 ```
 
-Para cada documento, tendremos que calcular la raíz de la suma de los cuadrados de cada uno de los TF en una misma fila. Esto nos resulta en una lista con cada longitud de documento. Con estos valores, podremos normalizar la matriz de TF.
+Para cada documento, tendremos que calcular la raíz de la suma de los cuadrados de cada uno de los TF-IDF en una misma fila. Esto nos resulta en una lista con cada longitud de documento. Con estos valores, podremos normalizar la matriz de TF-IDF.
 
 ```python
 for i, doc in enumerate(matrix):
     for word in matrix[doc]:
-        matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
+        if vector_length[doc] != 0:
+            matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
+        else:
+            matrix[doc][word].append(0)
 ```
 
-Para ello, dividimos cada valor de TF entre su respectiva longitud de documento. Con esto, hemos conseguido normalizar la matriz.
+Para ello, dividimos cada valor de TF-IDF entre su respectiva longitud de documento. Con esto, hemos conseguido normalizar la matriz.
 
 ```python
 similarity = []
 for i in range(len(matrix)):
     for j in range(i+1, len(matrix)):
         sum = 0
-        for word in matrix[i]:
-            if word in matrix[j]:
-                sum += matrix[i][word][4]*matrix[j][word][4]
+        for word in range(0, 5 if len(matrix[i]) > 5 else len(matrix[i])):
+              sum += matrix[i][list(matrix[i].keys())[word]][4] * matrix[j][list(matrix[j].keys())[word]][4]
         similarity.append([i, j, sum])
 ```
 
