@@ -88,7 +88,12 @@ for doc in matrix:
         sum += matrix[doc][word][3]**2
     vector_length.append(np.sqrt(sum))
 
-# normalizamos los tf
+#ordenamos los tf-idf de mayor a menor valor
+for doc in matrix:
+    matrix[doc] = {k: v for k, v in sorted(matrix[doc].items(), key=lambda item: item[1][3], reverse=True)}
+    
+
+# normalizamos los tf-idf
 for i, doc in enumerate(matrix):
     for word in matrix[doc]:
         matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
@@ -98,9 +103,9 @@ similarity = []
 for i in range(len(matrix)):
     for j in range(i+1, len(matrix)):
         sum = 0
-        for word in matrix[i]:
-            if word in matrix[j]:
-                sum += matrix[i][word][4]*matrix[j][word][4]
+        for word in range(5):
+            #multiplicamos los tf-idf de de iguales posicion dentro de cada documento
+            sum += matrix[i][list(matrix[i].keys())[word]][4] * matrix[j][list(matrix[j].keys())[word]][4]
         similarity.append([i, j, sum])
     
 
