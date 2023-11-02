@@ -96,16 +96,20 @@ for doc in matrix:
 # normalizamos los tf-idf
 for i, doc in enumerate(matrix):
     for word in matrix[doc]:
-        matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
+        if vector_length[doc] != 0:
+            matrix[doc][word].append(matrix[doc][word][3]/vector_length[doc])
+        else:
+            matrix[doc][word].append(0)
 
 #calculamos la similaridad entre filas
 similarity = []
 for i in range(len(matrix)):
     for j in range(i+1, len(matrix)):
         sum = 0
-        for word in range(5):
-            #multiplicamos los tf-idf de de iguales posicion dentro de cada documento
-            sum += matrix[i][list(matrix[i].keys())[word]][4] * matrix[j][list(matrix[j].keys())[word]][4]
+        #bucle de 0 a 5 o si el documento tiene menos palabras que 5 hasta el numero de palabras del documento
+        for word in range(0, 5 if len(matrix[i]) > 5 else len(matrix[i])):
+           #multiplicamos los tf-idf de cada documento por el otro de su misma posicion y lo sumamos
+              sum += matrix[i][list(matrix[i].keys())[word]][4] * matrix[j][list(matrix[j].keys())[word]][4]
         similarity.append([i, j, sum])
     
 
